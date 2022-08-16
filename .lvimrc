@@ -1,0 +1,10 @@
+autocmd FileType svelte setlocal tabstop=4
+autocmd FileType svelte setlocal shiftwidth=4
+autocmd FileType svelte setlocal expandtab
+autocmd FileType svelte setlocal softtabstop=4
+
+autocmd FileType javascript setlocal tabstop=4
+autocmd FileType javascript setlocal shiftwidth=4
+autocmd FileType javascript setlocal expandtab
+autocmd FileType javascript setlocal softtabstop=4
+
