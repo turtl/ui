@@ -1,39 +1,30 @@
 const production = process.env.ENV === 'prod';
-const gen_theme = require('./scripts/gen-theme.cjs');
-const default_extractor = require('tailwindcss/lib/lib/defaultExtractor').defaultExtractor;
-const color = require('./src/util/theme.cjs').color;
 
-const extractor = default_extractor({
-    tailwindConfig: {
-        separator: '',
-        prefix: '',
-    },
-});
-
-const theme = gen_theme.gen();
 const config = {
     content: {
         files: [
             './index.html',
             './src/**/*.{html,js,svelte}',
         ],
-        extract: {
-            svelte: (content) => {
-                const rules = extractor(content);
-                const expanded = [];
-                rules.forEach((rule) => {
-                    color(rule, () => {}).split(' ').forEach((split) => {
-                        expanded.push(split);
-                    });
-                });
-                return expanded;
-            },
-        },
     },
     darkMode: 'class',
     theme: {
         extend: {
-            colors: theme.colors,
+            colors: {
+                primary: {
+                    DEFAULT: "#8fc46a",
+                    '50': '#f2f8ee',
+                    '100': '#e7f2df',
+                    '200': '#d1e7c2',
+                    '300': '#bbdba4',
+                    '400': '#a5d087',
+                    '500': '#8fc46a',
+                    '600': '#71b046',
+                    '700': '#588836',
+                    '800': '#3e6026',
+                    '900': '#243816'
+                },
+            },
         },
     },
     variants: {

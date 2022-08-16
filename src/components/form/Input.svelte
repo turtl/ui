@@ -31,9 +31,9 @@
     const height = 'h-12';
     const height_class = is_textarea ? '' : height;
     const padding_top_class = is_textarea ? '' : 'pt-4';
-    const color_class = error ? color('text-red-700') : color('text-black');
-    const label_color_class = disabled ? color('text-slate-400') : color('text-black');
-    const border_class = error ? color('border-b-red-600') : color('border-b-slate-300');
+    const color_class = error ? 'text-red-700 dark:text-red-200' : 'text-black dark:text-white';
+    const label_color_class = disabled ? 'text-slate-400 dark:text-slate-500' : 'text-black dark:text-white';
+    const border_class = error ? 'border-b-red-600 dark:border-b-red-300' : 'border-b-slate-300 dark:border-b-slate-600';
     const padding_left = icon ? 'pl-11' : 'pl-4';
     const padding_right = icon_trailing ? 'pr-11' : 'pr-4';
     const pointer_events_class = is_textarea ? 'pointer-events-auto' : '';
@@ -55,7 +55,7 @@
 </script>
 
 <div class="mb-6">
-    <div class="relative {container_padding_class} {color('bg-slate-200/50')}">
+    <div class="relative {container_padding_class} bg-slate-200/50 bg-slate-700/50">
         {#if icon}
             <div class="absolute z-0 top-0 bottom-0 left-0 ml-4 flex items-center {icon_class || ''}">
                 <icon class="text-xl">{icon}</icon>
@@ -64,7 +64,7 @@
         <svelte:element this={tag}
             on:input={handle_input}
             use:set_value={value}
-            class="relative z-10 block {height_class} w-full {padding_top_class} {color_class} border-b-2 {border_class} text-base {padding_left} {padding_right} bg-transparent focus:outline-none {color('focus:border-b-primary')} transition-colors {klass}"
+            class="relative z-10 block {height_class} w-full {padding_top_class} {color_class} border-b-2 {border_class} text-base {padding_left} {padding_right} bg-transparent focus:outline-none focus:border-b-primary dark:focus:border-b-primary transition-colors {klass}"
             {name}
             {type}
             value="{value}"
@@ -91,7 +91,7 @@
     input:focus + label div,
     input[value]:not([value=""]) + label div,
     textarea:focus + label div,
-    textarea[value]:not([value=""]) + label div {@apply text-sm text-primary-700 dark:text-primary-dark-700 -translate-y-[60%];}
+    textarea[value]:not([value=""]) + label div {@apply text-sm text-primary-700 dark:text-primary-200 -translate-y-[60%];}
     textarea:focus + label div,
     textarea[value]:not([value=""]) + label div {@apply pointer-events-auto;}
 </style>

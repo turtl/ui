@@ -29,7 +29,7 @@ watch:
 watch-vite:
 	vite
 
-$(BUILD)/index.html: $(allsrc) index.html scripts/gen-theme.cjs *.config.js *.config.cjs
+$(BUILD)/index.html: $(allsrc) index.html *.config.js *.config.cjs
 	@$(MKDIR)
 	vite build
 
