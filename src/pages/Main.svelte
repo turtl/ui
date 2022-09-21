@@ -1,6 +1,5 @@
 <script>
     import Loading from '../components/util/Loading.svelte';
-    import { set_page } from '../models/pages';
     import { load_profile } from '../models/turtl/profile';
     import { procerr } from '../util/error';
 

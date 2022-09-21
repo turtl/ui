@@ -1,4 +1,6 @@
 import { writable } from 'svelte/store';
 
-export const spaces = writable([]);
+const spaces = writable([]);
+
+export default spaces;
 

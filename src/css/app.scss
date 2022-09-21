@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {font-family: 'Icons'; src: url('../assets/fonts/icons.woff2?v4');}
+icon {font-family: 'Icons';}
+
+.text-auto {@apply text-black dark:text-white;}
+content {
+	& {@apply text-slate-900 dark:text-slate-200;}
+	h1, h2, h3, h4 {@apply font-semibold;}
+	h1 {@apply text-4xl mb-6;}
+	h2 {@apply text-3xl mb-5;}
+	h3 {@apply text-2xl mb-4;}
+	h4 {@apply text-xl mb-3;}
+	p, ul, ol {
+		& {@apply mb-4;}
+		& + h1 {@apply mt-12;}
+		& + h2 {@apply mt-8;}
+		& + h3 {@apply mt-6;}
+		& + h4 {@apply mt-4;}
+	}
+	img + p {@apply mt-4;}
+	p:last-child {@apply mb-0;}
+	ul, ol {
+		ul, ol {@apply mb-0;}
+	}
+	ul {@apply list-disc ml-8;}
+	ol {@apply list-decimal ml-8;}
+	code {@apply p-1 whitespace-nowrap bg-slate-100 dark:bg-slate-800 text-sm p-1;}
+	pre {
+		& {@apply mb-4 border p-2 whitespace-pre;}
+		code {@apply p-0 whitespace-pre text-slate-500 bg-inherit;}
+	}
+	hr {@apply mb-4;}
+}
+
+

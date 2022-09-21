@@ -1,4 +1,6 @@
 import { writable } from 'svelte/store';
 
-export const invites = writable([]);
+const invites = writable([]);
+
+export default invites;
 

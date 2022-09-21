@@ -6,11 +6,13 @@
     export let display = 'filled';  // 'outlined', 'text'
     export let icon = null;
     export let icon_class = null;
+    export let submit = false;
+    export let tabindex = null;
 
     const display_map = {
-        'filled': 'text-white bg-primary drop-shadow hover:drop-shadow-md focus:bg-primary-dark/75 focus:drop-shadow-md',
-        'outlined': 'text-primary border border-primary hover:bg-primary/10 focus:bg-primary/25',
-        'text': 'text-primary hover:bg-primary/10 focus:bg-primary/25',
+        'filled': 'text-white dark:text-black bg-primary dark:bg-primary/90 drop-shadow hover:drop-shadow-md focus:drop-shadow-md hover:bg-primary-600 dark:hover:bg-primary focus:bg-primary-600 dark:focus:bg-primary',
+        'outlined': 'text-primary dark:text-primary-400 border border-primary hover:bg-primary-50 dark:hover:bg-primary-900 focus:bg-primary-50 dark:focus:bg-primary-900',
+        'text': 'text-primary dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900 focus:bg-primary-50 dark:focus:bg-primary-900',
     };
 
     const dispatch = createEventDispatcher();
@@ -27,7 +29,8 @@
 <button
         on:click={button_click}
         class="cursor-pointer flex items-center h-9 px-3 py-1 rounded font-semibold transition-all outline-none {button_classes} {klass}"
-        type="button">
+        type={submit ? 'submit' : 'button'}
+        tabindex={tabindex || null}>
     {#if icon}
         <icon class="text-xl pr-2 {icon_class || ''}">{icon}</icon>
     {/if}

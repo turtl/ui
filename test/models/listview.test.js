@@ -225,7 +225,7 @@ describe('models/listview', () => {
 
         const list2 = type.create([
             {id: 1, name: 'slappy'},
-            {id: 3, name: 'sloopy'},
+            {id: 3, name: 'sloopy'},    // hang on
         ]);
         const model2_1 = list2.find(1);
         const model3 = list2.find(3);

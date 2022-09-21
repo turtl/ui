@@ -1,22 +1,48 @@
 <script>
+    import Menu from './util/Menu.svelte';
     import { pages, pop_page } from '../models/pages';
     import logo from '../assets/images/logo.svg';
+    import user from '../models/turtl/user';
 
     function back(e) {
         e.preventDefault();
         pop_page();
     }
+
+    let open = false;
+    function toggle_sidebar(e) {
+        e.preventDefault();
+        open = !open;
+    }
+
+    $: curpage = $pages[$pages.length - 1] || {};
+
+    $: opts = curpage.header || {};
+    $: headerclass = opts.hide ?
+        'bg-white dark:bg-black text-black dark:text-white' :
+        'bg-slate-800 dark:bg-black text-white';
 </script>
 
-<header class="bg-slate-700 dark:bg-black h-12 flex items-center text-white px-3">
+<header class="relative h-12 flex items-center justify-between px-3 {headerclass} z-50">
     {#if $pages.length > 1}
-        <a href="#back" on:click={back} class="flex">
-            <icon class="pr-6">&#xE800;</icon>
-            <h1 class="font-mono font-bold">{($pages[$pages.length - 1] || {}).title}</h1>
+        <a href="#back" on:click={back} class="flex items-center">
+            <icon class="text-primary">&#xE801;</icon>
+            {#if !opts.hide}
+                <h1 class="ml-4 font-mono font-bold">{curpage.title || '(untitled)'}</h1>
+            {/if}
         </a>
     {:else}
-        <img src={logo} alt="Turtl logo">
-        <h1 class="font-mono font-bold">{($pages[$pages.length - 1] || {}).title}</h1>
+        <a href="#sidebar" on:click={toggle_sidebar} class="flex items-center">
+            {#if $user.loggedin}
+                <icon class="text-primary text-xl relative">&#xF0C9;</icon>
+            {/if}
+            {#if !opts.hide}
+                <h1 class="font-mono font-bold ml-4">{curpage.title || '(untitled)'}</h1>
+            {/if}
+        </a>
+    {/if}
+    {#if opts.menu}
+        <Menu items={opts.menu} />
     {/if}
 </header>
 

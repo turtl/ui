@@ -1,9 +1,9 @@
 import { invoke } from './invoke';
 import { config } from './config';
-import { user } from './user';
-import { spaces } from './spaces';
-import { pages } from './pages';
-import { invites } from './invites';
+import user from './user';
+import spaces from './spaces';
+import pages from './pages';
+import invites from './invites';
 
 export async function load_profile() {
     return new Promise(() => {});
@@ -25,7 +25,8 @@ export async function load_profile() {
 function demo_data() {
     const user = {
         id: '01626b759c146c6f6b696da1b7e38fd92ff72c531689872a9da4e1b4cb7697b0636b15616a0f0017',
-        username: 'andrew@turtlapp.com',
+        username: 'login@turtl.app',
+        password: 'password',
         confirmed: false,
         name: 'Andrew',
         pubkey: null,

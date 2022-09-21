@@ -1,4 +1,9 @@
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 
-export const user = writable({});
+const user = writable({});
+
+user.loggedin = () => get(user).loggedin;
+user.data = () => get(user);
+
+export default user;
 
