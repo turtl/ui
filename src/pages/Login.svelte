@@ -121,7 +121,7 @@
         <div class="mb-6" transition:slide="{{duration: 150}}">
             <Input bind:value={passphrase_confirm} type="password" name="confirm" label="{loc('passphrase_confirm')}" required=true tabindex=2 />
             <div class="my-2 p-4 bg-orange-100 dark:bg-orange-900/50">
-                <Switch bind:value={i_understand} name="understand" checked=false class="mb-0" label="{loc('passphrase_understand')}" tabindex="3" supporting="{loc('passphrase_importance')}" />
+                <Switch bind:checked={i_understand} name="understand" class="mb-0" label="{loc('passphrase_understand')}" tabindex="3" supporting="{loc('passphrase_importance')}" />
             </div>
         </div>
     {/if}

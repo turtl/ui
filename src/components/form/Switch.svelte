@@ -15,14 +15,14 @@
         if(!container) return;
         if(checked === 'false') checked = false;
         if(checked === 'true') checked = true;
-        set_value(container.querySelector('input'), !!checked);
+        set_checked(container.querySelector('input'), !!checked);
     })();
 
     const color_class = disabled ? 'text-slate-500 dark:text-slate-400' : 'text-black dark:text-white';
 
     const dispatch = createEventDispatcher();
 
-    function set_value(inp, val) {
+    function set_checked(inp, val) {
         if(val === true || val === 'true') {
             inp.setAttribute('checked', 'checked');
         } else {
@@ -49,7 +49,7 @@
         <div bind:this={container} class="flex items-center">
             <input
                 on:change={change}
-                use:set_value={checked}
+                use:set_checked={checked}
                 bind:checked
                 class="translate-x-8"
                 type="checkbox"
