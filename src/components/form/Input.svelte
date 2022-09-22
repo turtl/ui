@@ -57,6 +57,8 @@
         // svelte doesn't let us two-way bind if we have a dynamic `type` attr
         // (why??) so we implement it by hand...
         if(e.target) e.target.setAttribute('value', e.target.value);
+        // delay s value attr is set when we run the event
+        setTimeout(() => dispatch('input', e));
     }
 
     function icon_trailing_click(e) {
