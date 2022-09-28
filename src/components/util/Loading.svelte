@@ -1,12 +1,17 @@
 <script>
     import { onDestroy } from 'svelte';
     import Fullscreen from './Fullscreen.svelte';
+    import { loc } from '../../util/i18n';
+    import logo from '../../assets/images/logo.svg';
 
-    let dots = '';
+    export let logs = [];
+
+    const dot = `<img class="w-6 h-6 mx-1" src="${logo}" alt="${loc('logo')}">`;
+    let dots = dot;
     let i = 0;
     let dot_interval = setInterval(() => {
         i = (i + 1) % 3;
-        dots = Array.from(new Array(i + 1), () => '.').join('');
+        dots = Array.from(new Array(i + 1), () => dot).join('');
     }, 750);
     onDestroy(() => {
         clearInterval(dot_interval);
@@ -14,6 +19,15 @@
 </script>
 
 <Fullscreen>
-    <span class="text-6xl">{dots}</span>
+    <div class="w-full text-center">
+        <span class="flex items-center justify-center mb-6 text-6xl text-slate-400 dark:text-slate-500">{@html dots}</span>
+        {#if logs && logs.length > 0}
+            <div class="h-0">
+                {#each logs as log}
+                    <p class="text-slate-500 dark:text-slate-400">{log}</p>
+                {/each}
+            </div>
+        {/if}
+    </div>
 </Fullscreen>
 

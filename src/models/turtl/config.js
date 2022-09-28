@@ -1,10 +1,12 @@
-import { invoke } from './invoke';
+import { invoke } from './core';
 import { writable } from 'svelte/store';
 
 export const config = writable({});
 
-export async function load_config() {
-    const conf = await invoke('get_config');
+config.load = async function load_config() {
+    const conf = await invoke('app:get_config');
     config.set(conf || {});
 }
+
+export default config;
 

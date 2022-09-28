@@ -28,7 +28,7 @@
 
 <button
         on:click={button_click}
-        class="cursor-pointer flex items-center h-9 px-3 py-1 rounded font-semibold transition-all outline-none {button_classes} {klass}"
+        class="cursor-pointer flex items-center px-4 py-2 rounded font-semibold transition-all outline-none {button_classes} {klass}"
         type={submit ? 'submit' : 'button'}
         tabindex={tabindex || null}>
     {#if icon}

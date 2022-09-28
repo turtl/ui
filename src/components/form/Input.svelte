@@ -28,9 +28,9 @@
 
     const is_textarea = type === 'textarea';
     const container_padding_class = is_textarea ? 'pt-5' : '';
-    const height = 'h-12';
+    const height = 'h-14';
     const height_class = is_textarea ? '' : height;
-    const padding_top_class = is_textarea ? '' : 'pt-4';
+    const padding_top_class = is_textarea ? 'pt-1' : 'pt-4';
     const color_class = disabled ? 'text-slate-500 dark:text-slate-400' : 'text-black dark:text-white';
     const label_color_class = disabled ?
         'label-disabled' :
@@ -101,8 +101,8 @@
                 {...attrs}/>
         {/if}
 
-        <label class="absolute z-10 top-0 left-0 right-0 {height} flex items-center pointer-events-none bg-transparent" id={label_id} for={id}>
-            <div class="text-lg {padding_left} pr-4 -mt-1 text-black dark:text-white {label_color_class} transition-all">{label}</div>
+        <label class="absolute z-10 top-px left-0 right-0 {height} flex items-center pointer-events-none bg-transparent" id={label_id} for={id}>
+            <div class="text-lg {padding_left} pr-4 -mt-1 text-slate-600 dark:text-slate-400 {label_color_class} transition-all">{label}</div>
         </label>
         {#if icon_trailing}
             <div on:click={icon_trailing_click} class="absolute z-10 top-0 bottom-0 right-0 mr-4 flex items-center {icon_trailing_class || ''}">
@@ -122,11 +122,11 @@
     .turtl-input input:focus + label div,
     .turtl-input input[value]:not([value=""]) + label div,
     .turtl-input textarea:focus + label div,
-    .turtl-input textarea[value]:not([value=""]) + label div {@apply text-sm text-slate-400 dark:text-slate-400/90 -translate-y-[55%];}
+    .turtl-input textarea[value]:not([value=""]) + label div {@apply text-sm text-slate-500 dark:text-slate-400 -translate-y-[55%];}
     .turtl-input textarea:focus + label div,
     .turtl-input textarea[value]:not([value=""]) + label div {@apply pointer-events-auto;}
     .turtl-input input + label div.label-disabled,
-    .turtl-input textarea + label div.label-disabled {@apply !text-slate-500 dark:!text-slate-500;}
+    .turtl-input textarea + label div.label-disabled {@apply !text-slate-500;}
     .turtl-input input + label div.label-error,
     .turtl-input textarea + label div.label-error {@apply !text-red-700 dark:!text-red-400;}
 </style>

@@ -8,6 +8,8 @@
     import { push_page, set_page, set_meta } from '../models/pages';
     import { loc } from '../util/i18n';
     import { slide } from "svelte/transition";
+    import user from '../models/turtl/user';
+    import { procerr } from '../util/error';
 
     set_meta(loc('login'), {
         header: {
@@ -20,8 +22,9 @@
 
     let page_join_mode = false;
     let page_settings_open = false;
+    let page_error = null;
 
-    let email = null;
+    let username = null;
     let passphrase = null;
     let passphrase_confirm = null;
     let i_understand = false;
@@ -32,21 +35,31 @@
     let strength_width = null;
     let strength_class = null;
 
-    function submit(e) {
+    async function submit(e) {
         e.preventDefault();
         e.stopPropagation();
-        console.log('serv:' , turtl_server);
+        if(page_join_mode) {
+            throw new Error('unimplemented');
+        } else {
+            try {
+                await user.login(username, passphrase);
+            } catch(err) {
+                page_error = err;
+            }
+        }
     }
 
     function open_join(e) {
         e.preventDefault();
         page_join_mode = true;
+        page_error = null;
         update_passphrase_strength_meter(e);
     }
 
     function open_login(e) {
         e.preventDefault();
         page_join_mode = false;
+        page_error = null;
     }
 
     function toggle_settings(e) {
@@ -101,15 +114,20 @@
 </script>
 
 <form on:submit={submit} class="mx-auto max-w-screen-md text-auto">
-    <div class="flex flex-col w-full py-4 md:py-8 items-center justify-center">
+    <div class="flex flex-col w-full py-10 items-center justify-center">
         <img src="{logo}" class="w-20 h-20 md:w-24 md:h-24" alt="{loc('logo')}">
         <content class="pt-4 text-center">
             <h1 class="mb-3">{loc('welcome_turtl')}</h1>
             <p>{loc('app_desc')}</p>
         </content>
     </div>
-    <Input bind:value={email} type="email" name="email" label="{loc('email')}" required=true tabindex=1 />
-    <Input on:input={update_passphrase_strength_meter} bind:value={passphrase} type="password" name="passphrase" label="{loc('passphrase')}" required=true tabindex=2 supporting={page_join_mode ? strength_text : null} class="mb-0" />
+    {#if page_error}
+        <div transition:slide="{{duration: 150}}" class="mb-6 p-4 bg-red-200 dark:bg-red-700">
+            {procerr(page_error)}
+        </div>
+    {/if}
+    <Input bind:value={username} type="email" name="email" label="{loc('email')}" required=true tabindex=1 />
+    <Input on:input={update_passphrase_strength_meter} bind:value={passphrase} type="password" name="passphrase" label="{loc('passphrase')}" required=true tabindex=2 supporting={page_join_mode && passphrase ? loc('passphrase_strength', {strength: strength_text}) : null} class="mb-0" />
     {#if page_join_mode}
         {#if passphrase}
             <div class="relative px-4 -top-5" transition:slide="{{duration: 150}}">
@@ -121,13 +139,13 @@
         <div class="mb-6" transition:slide="{{duration: 150}}">
             <Input bind:value={passphrase_confirm} type="password" name="confirm" label="{loc('passphrase_confirm')}" required=true tabindex=2 />
             <div class="my-2 p-4 bg-orange-100 dark:bg-orange-900/50">
-                <Switch bind:checked={i_understand} name="understand" class="mb-0" label="{loc('passphrase_understand')}" tabindex="3" supporting="{loc('passphrase_importance')}" />
+                <Switch bind:checked={i_understand} name="understand" class="!mb-0" label="{loc('passphrase_understand')}" tabindex="3" supporting="{loc('passphrase_importance')}" />
             </div>
         </div>
     {/if}
     <div class="flex items-center justify-center">
         {#if page_join_mode}
-            <Button label="{loc('join')}" submit=true tabindex=4 />
+            <Button label="{loc('create_account')}" submit=true tabindex=4 />
             <Button on:click={open_login} label="{loc('login_existing')}" display="text" class="ml-2" tabindex=5 />
         {:else}
             <Button label="{loc('login')}" submit=true tabindex=4 />

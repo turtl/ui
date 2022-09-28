@@ -1,4 +1,5 @@
 const production = process.env.ENV === 'prod';
+const defaultTheme = require('tailwindcss/defaultTheme');
 
 const config = {
     content: {
@@ -10,6 +11,9 @@ const config = {
     darkMode: 'class',
     theme: {
         extend: {
+            fontFamily: {
+                'sans': ['Noto Sans', ...defaultTheme.fontFamily.sans],
+            },
             colors: {
                 primary: {
                     DEFAULT: "#8fc46a",

@@ -28,7 +28,7 @@
         <a href="#back" on:click={back} class="flex items-center">
             <icon class="text-primary">&#xE801;</icon>
             {#if !opts.hide}
-                <h1 class="ml-4 font-mono font-bold">{curpage.title || '(untitled)'}</h1>
+                <h1 class="font-mono font-bold ml-4 mt-1">{curpage.title || '(untitled)'}</h1>
             {/if}
         </a>
     {:else}
@@ -37,7 +37,7 @@
                 <icon class="text-primary text-xl relative">&#xF0C9;</icon>
             {/if}
             {#if !opts.hide}
-                <h1 class="font-mono font-bold ml-4">{curpage.title || '(untitled)'}</h1>
+                <h1 class="font-mono font-bold ml-4 mt-1">{curpage.title || '(untitled)'}</h1>
             {/if}
         </a>
     {/if}

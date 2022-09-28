@@ -5,6 +5,13 @@
 @font-face {font-family: 'Icons'; src: url('../assets/fonts/icons.woff2?v4');}
 icon {font-family: 'Icons';}
 
+@font-face { font-family: 'Noto Sans'; font-style: italic; font-weight: 100; font-display: swap; src: url(../assets/fonts/noto-100-i.ttf) format('truetype'); }
+@font-face { font-family: 'Noto Sans'; font-style: italic; font-weight: 400; font-display: swap; src: url(../assets/fonts/noto-400-i.ttf) format('truetype'); }
+@font-face { font-family: 'Noto Sans'; font-style: italic; font-weight: 700; font-display: swap; src: url(../assets/fonts/noto-700-i.ttf) format('truetype'); }
+@font-face { font-family: 'Noto Sans'; font-style: normal; font-weight: 100; font-display: swap; src: url(../assets/fonts/noto-100.ttf) format('truetype'); }
+@font-face { font-family: 'Noto Sans'; font-style: normal; font-weight: 400; font-display: swap; src: url(../assets/fonts/noto-400.ttf) format('truetype'); }
+@font-face { font-family: 'Noto Sans'; font-style: normal; font-weight: 700; font-display: swap; src: url(../assets/fonts/noto-700.ttf) format('truetype'); }
+
 .text-auto {@apply text-black dark:text-white;}
 content {
 	& {@apply text-slate-900 dark:text-slate-200;}

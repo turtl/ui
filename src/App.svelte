@@ -5,10 +5,12 @@
     import Err from './pages/Error.svelte';
     import Settings from './pages/Settings.svelte';
     import { pages, pop_page, push_page, set_page } from './models/pages';
+    import * as core from './models/turtl/core';
     import user from './models/turtl/user';
-    import { load_config } from './models/turtl/config';
+    import config from './models/turtl/config';
     import darkmode from './models/darkmode';
     import { procerr } from './util/error';
+    import Emitter from './util/event';
     import { init as i18n_init, loc } from './util/i18n';
     import * as shortcuts from './util/shortcuts';
     import { onMount } from 'svelte';
@@ -33,9 +35,7 @@
         await darkmode.toggle();
     }
 
-    onMount(async () => {
-        i18n_init();
-
+    async function connected() {
         darkmode.subscribe((dm) => {
             const html = document.querySelector('html');
             if(dm.enabled && !html.classList.contains('dark')) {
@@ -48,7 +48,7 @@
 
         // load the config and create our homepage
         try {
-            await load_config();
+            await config.load();
             shortcuts.register({
                 's-d': darkmode_toggle,
                 'backspace': pop_page,
@@ -61,6 +61,17 @@
                 text: loc('error_config_text', {err: procerr(err)}),
             }});
         }
+    }
+
+    onMount(async () => {
+        i18n_init();
+        const check_connected = async () => {
+            if(core.is_connected()) {
+                connected();
+            }
+        };
+        core.events.on('connected', check_connected);
+        check_connected();
     });
 </script>
 
