@@ -5,6 +5,7 @@
     import spaces from '../models/turtl/spaces';
     import { procerr } from '../util/error';
     import { loc } from '../util/i18n';
+    import * as core from '../models/turtl/core';
 
     set_meta(loc('loading_profile'));
 
@@ -14,7 +15,12 @@
     async function load() {
         loading = true;
         push_log(loc('loading_profile'));
+        const unbind = core.events.on('event', (ev) => {
+            (ev === 'profile:loaded') && push_log(loc('indexing_notes'));
+        });
         await load_profile();
+        unbind();
+        loading = false;
     }
     load();
 </script>

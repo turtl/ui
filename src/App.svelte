@@ -11,6 +11,7 @@
     import darkmode from './models/darkmode';
     import { procerr } from './util/error';
     import Emitter from './util/event';
+    import log from './util/log';
     import { init as i18n_init, loc } from './util/i18n';
     import * as shortcuts from './util/shortcuts';
     import { onMount } from 'svelte';
@@ -71,6 +72,9 @@
             }
         };
         core.events.on('connected', check_connected);
+        core.events.on('error', (ev) => {
+            log.error(`core error`, ev.err);
+        });
         check_connected();
     });
 </script>

@@ -52,7 +52,7 @@ export async function init(core_adapter, options) {
                 events.emit('error', {core: true, err: 'missing_handler', id});
             }
         } else {
-            log.info(`core::event`);
+            log.info(`core::event`, msg.e);
             events.emit('event', msg.e, msg.d);
         }
     });
@@ -79,7 +79,8 @@ export async function invoke(call, ...args) {
         }
         message_map[id] = {resolve, reject};
         log.info(`core::send(${call}) -- msg ${msg_id}`);
-        adapter.send(JSON.stringify([id.toString(), call, ...args]));
+        adapter.send(JSON.stringify([id.toString(), call, ...args]))
+            .catch((err) => reject(err));
     });
 }
 

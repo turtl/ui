@@ -6,7 +6,7 @@
 
     export let logs = [];
 
-    const dot = `<img class="w-6 h-6 mx-1" src="${logo}" alt="${loc('logo')}">`;
+    const dot = `<img class="w-8 h-8 md:w-12 md:h-12 mx-1" src="${logo}" alt="${loc('logo')}">`;
     let dots = dot;
     let i = 0;
     let dot_interval = setInterval(() => {

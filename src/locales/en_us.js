@@ -11,6 +11,7 @@ export const translation = {
     excellent: 'Excellent',
     good: 'Good',
     great: 'Great',
+    indexing_notes: 'Indexing notes',
     loading_profile: 'Loading profile',
     login: 'Login',
     login_existing: 'Login to an existing account',

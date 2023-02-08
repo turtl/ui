@@ -1,18 +1,9 @@
 import * as core from '../models/turtl/core';
+import delay from '../util/delay';
 import Emitter from '../util/event';
 import log from '../util/log';
 
 const CoreAdapter = ((events) => {
-    function event(data, error) {
-        setTimeout(() => {
-            const res_event = {
-                d: data,
-                e: error,
-            };
-            events.emit('message', JSON.stringify(res_event));
-        });
-    }
-
     const state = {
         user: {
             id: '01626b759c146c6f6b696da1b7e38fd92ff72c531689872a9da4e1b4cb7697b0636b15616a0f0017',
@@ -69,7 +60,7 @@ const CoreAdapter = ((events) => {
             color: '#408080',
             body: 'eyJXT1cgTVVIQyBTRUNVRVIiKQ==',
         }],
-        pages: [{
+        boards: [{
             id: '013e4c7a04286c8cf3cf96d4d489d14095b5937cbde319f57adabbc0ab24f3209bb63a3de800a9ce',
             space_id: '01626b759c146c6f634b027b1b69e1242d40d53e312b3b4ac7710f55be81f289b549446ef6778bee',
             user_id: '01626b759c146c6f6b696da1b7e38fd92ff72c531689872a9da4e1b4cb7697b0636b15616a0f0017',
@@ -78,17 +69,17 @@ const CoreAdapter = ((events) => {
         invites: [],
     };
 
-    function event(eventdata, error) {
+    function event(name, eventdata) {
         const res_msg = {
-            d: JSON.parse(JSON.stringify(eventdata)),
-            e: !!error,
+            e: name,
+            d: typeof(eventdata) === 'undefined' ? eventdata : JSON.parse(JSON.stringify(eventdata)),
         };
         log.debug('CoreAdapter::mock::event() -- event: ', res_msg);
 
         events.emit('message', JSON.stringify(res_msg));
     }
 
-    function send(msg) {
+    async function send(msg) {
         const parsed = JSON.parse(msg);
         const [msg_id, cmd, ...args] = parsed;
         if(!cmd) {
@@ -119,6 +110,10 @@ const CoreAdapter = ((events) => {
                 }
                 break;
             case 'profile:load':
+                await delay(1000);
+                event('profile:loaded');
+                await delay(2000);
+                event('profile:indexed');
                 response = state;
                 break;
             case 'sync:start':
@@ -143,10 +138,8 @@ const CoreAdapter = ((events) => {
         events.emit('connected', true);
     });
 
-    return {
-        ...events,
-        send,
-    };
+    events.send = send;
+    return events;
 });
 
 core.init(CoreAdapter(Emitter()));
