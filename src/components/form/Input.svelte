@@ -1,6 +1,6 @@
 <script>
     import { createEventDispatcher } from 'svelte';
-    import { inc } from '../../models/counter';
+    import { inc } from '@/models/counter';
     export let name;
     export let label;
     export let type = 'text';

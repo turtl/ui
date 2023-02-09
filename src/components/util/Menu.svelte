@@ -1,8 +1,8 @@
 <script>
-    import log from '../../util/log';
+    import log from '@/util/log';
     import { onMount, onDestroy } from 'svelte';
-    import { inc } from '../../models/counter';
-    import * as shortcuts from '../../util/shortcuts';
+    import { inc } from '@/models/counter';
+    import * as shortcuts from '@/util/shortcuts';
     import { slide } from "svelte/transition";
 
     export let items = [];

@@ -1,14 +1,14 @@
 <script>
     import Settings from './Settings.svelte';
-    import Button from '../components/form/Button.svelte';
-    import Input from '../components/form/Input.svelte';
-    import Switch from '../components/form/Switch.svelte';
-    import logo from '../assets/images/logo.svg';
-    import { push_page, set_meta } from '../models/pages';
-    import { loc } from '../util/i18n';
+    import Button from '../form/Button.svelte';
+    import Input from '../form/Input.svelte';
+    import Switch from '../form/Switch.svelte';
+    import logo from '@/assets/images/logo.svg';
+    import { push_page, set_meta } from '@/models/pages';
+    import { loc } from '@/util/i18n';
     import { slide } from "svelte/transition";
-    import user from '../models/turtl/user';
-    import { procerr } from '../util/error';
+    import user from '@/models/turtl/user';
+    import { procerr } from '@/util/error';
 
     set_meta(loc('login'), {
         header: {

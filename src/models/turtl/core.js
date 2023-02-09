@@ -1,5 +1,5 @@
-import log from '../../util/log';
-import Emitter from '../../util/event';
+import log from '@/util/log';
+import Emitter from '@/util/event';
 
 export const events = Emitter();
 

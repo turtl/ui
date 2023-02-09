@@ -1,9 +1,10 @@
 <script>
-    import Loading from '../components/util/Loading.svelte';
-    import { set_meta } from '../models/pages';
-    import { load_profile } from '../models/turtl/profile';
-    import { loc } from '../util/i18n';
-    import * as core from '../models/turtl/core';
+    import Loading from '../util/Loading.svelte';
+    import Space from '../turtl/Space.svelte';
+    import { set_meta } from '@/models/pages';
+    import { load_profile } from '@/models/turtl/profile';
+    import { loc } from '@/util/i18n';
+    import * as core from '@/models/turtl/core';
 
     set_meta(loc('loading_profile'));
 
@@ -26,6 +27,6 @@
 {#if loading}
     <Loading logs={logs} />
 {:else}
-    Loaded!
+    <Space />
 {/if}
 

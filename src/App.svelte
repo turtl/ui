@@ -1,8 +1,8 @@
 <script>
     import Header from './components/Header.svelte';
-    import Main from './pages/Main.svelte';
-    import Login from './pages/Login.svelte';
-    import Err from './pages/Error.svelte';
+    import Main from './components/pages/Main.svelte';
+    import Login from './components/pages/Login.svelte';
+    import Err from './components/pages/Error.svelte';
     import { pages, pop_page, set_page } from './models/pages';
     import * as core from './models/turtl/core';
     import user from './models/turtl/user';

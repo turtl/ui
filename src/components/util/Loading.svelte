@@ -1,8 +1,8 @@
 <script>
     import { onDestroy } from 'svelte';
     import Fullscreen from './Fullscreen.svelte';
-    import { loc } from '../../util/i18n';
-    import logo from '../../assets/images/logo.svg';
+    import { loc } from '@/util/i18n';
+    import logo from '@/assets/images/logo.svg';
 
     export let logs = [];
 
