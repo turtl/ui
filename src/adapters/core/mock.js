@@ -1,13 +1,13 @@
-import * as core from '../models/turtl/core';
-import delay from '../util/delay';
-import Emitter from '../util/event';
-import log from '../util/log';
+import * as core from '@/models/turtl/core';
+import delay from '@/util/delay';
+import Emitter from '@/util/event';
+import log from '@/util/log';
 
 const CoreAdapter = ((events) => {
     const state = {
         user: {
             id: '01626b759c146c6f6b696da1b7e38fd92ff72c531689872a9da4e1b4cb7697b0636b15616a0f0017',
-            username: 'login@turtl.app',
+            username: 'user@turtl.app',
             password: 'password',
             confirmed: false,
             name: 'Andrew',
@@ -93,33 +93,53 @@ const CoreAdapter = ((events) => {
                 response = {};
                 break;
             }
-            case 'user:login': {
-                const [username, passphrase] = args;
-                if(username === 'login@turtl.app' && passphrase === 'password') {
-                    response = {
-                        id: '01626b759c146c6f6b696da1b7e38fd92ff72c531689872a9da4e1b4cb7697b0636b15616a0f0017',
-                        username: 'login@turtl.app',
-                        passphrase: 'password',
-                        confirmed: false,
-                        name: 'Andrew',
-                        pubkey: null,
-                        settings: {},
-                        privkey: null,
-                    };
-                } else {
-                    error = {type: 'login_failed', message: `Login failed`};
-                }
-                break;
-            }
             case 'profile:load': {
-                await delay(1000);
+                await delay(500);
                 event('profile:loaded');
-                await delay(2000);
+                await delay(500);
                 event('profile:indexed');
                 response = state;
                 break;
             }
             case 'sync:start': {
+                break;
+            }
+            case 'user:login': {
+                const [username, password] = args;
+                if(username === state.user.username && password === state.user.password) {
+                    state.user.loggedin = true;
+                    response = state.user;
+                } else {
+                    error = {type: 'login_failed', message: `Login failed`};
+                }
+                break;
+            }
+            case 'user:login-from-saved': {
+                const [user_id, key] = args;
+                const decoded = JSON.parse(key);
+                if(decoded.u === state.user.username && decoded.p === state.user.password) {
+                    state.user.loggedin = true;
+                    response = state.user;
+                } else {
+                    error = {type: 'login_failed', message: `Login failed`};
+                }
+                break;
+            }
+            case 'user:logout': {
+                state.user.loggedin = false;
+                response = {};
+                break;
+            }
+            case 'user:save-login': {
+                if(state.user.loggedin) {
+                    response = {
+                        user_id: state.user.id,
+                        // TODO: ROT13 this and possibly base64
+                        key: JSON.stringify({u: state.user.username, p: state.user.password}),
+                    };
+                } else {
+                    error = {type: 'missing_field', message: 'Turtl.user_id'};
+                }
                 break;
             }
             default: {

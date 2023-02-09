@@ -6,10 +6,12 @@
     import { pages, pop_page, set_page } from './models/pages';
     import * as core from './models/turtl/core';
     import user from './models/turtl/user';
+    import * as remember_me from './models/remember-me';
     import config from './models/turtl/config';
     import darkmode from './models/darkmode';
     import { procerr } from './util/error';
     import log from './util/log';
+    import delay from './util/delay';
     import { init as i18n_init, loc } from './util/i18n';
     import * as shortcuts from './util/shortcuts';
     import { onMount } from 'svelte';
@@ -53,6 +55,8 @@
                 'backspace': pop_page,
             });
             shortcuts.bind();
+            await remember_me.login();
+            await delay(50);
             user.subscribe(test_login);
         } catch(err) {
             set_page(Err, {params: {

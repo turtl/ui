@@ -4,10 +4,14 @@ import user from './user';
 const spaces = writable([]);
 
 spaces.get_active = () => {
-    let space = get(spaces).find((s) => s.active === true);
+    const got_spaces = get(spaces);
+    let space = got_spaces.find((s) => s.active === true);
     if(!space) {
         const default_space = ((user.data() || {}).settings || {}).default_space;
-        space = get(spaces).find((s) => s.id === default_space);
+        space = got_spaces.find((s) => s.id === default_space);
+    }
+    if(!space) {
+        space = got_spaces[0];
     }
     return space;
 };

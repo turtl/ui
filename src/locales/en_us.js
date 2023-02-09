@@ -26,6 +26,8 @@ export const translation = {
     proxy_server: 'Proxy server',
     settings: 'Settings',
     skip_ssl_verify: 'Skip SSL verification',
+    stay_logged_in: 'Stay logged in',
+    stay_logged_in_warning: 'Staying logged in may compromise the security of your account.',
     too_short: 'Too short',
     turtl_server: 'Turtl server',
     weak: 'Weak',

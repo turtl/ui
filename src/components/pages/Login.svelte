@@ -1,4 +1,5 @@
 <script>
+    import app_config from '@/config';
     import Settings from './Settings.svelte';
     import Button from '../form/Button.svelte';
     import Input from '../form/Input.svelte';
@@ -27,6 +28,7 @@
     let passphrase = null;
     let passphrase_confirm = null;
     let i_understand = false;
+    let remember_me = false;
     let turtl_server = null;
     let proxy_server = null;
     let skip_ssl_verification = false;
@@ -41,7 +43,7 @@
             throw new Error('unimplemented');
         } else {
             try {
-                await user.login(username, passphrase);
+                await user.login(username, passphrase, {remember_me});
             } catch(err) {
                 page_error = err;
             }
@@ -136,31 +138,36 @@
             </div>
         {/if}
         <div class="mb-6" transition:slide="{{duration: 150}}">
-            <Input bind:value={passphrase_confirm} type="password" name="confirm" label="{loc('passphrase_confirm')}" required=true tabindex=2 />
-            <div class="my-2 p-4 bg-orange-100 dark:bg-orange-900/50">
-                <Switch bind:checked={i_understand} name="understand" class="!mb-0" label="{loc('passphrase_understand')}" tabindex="3" supporting="{loc('passphrase_importance')}" />
+            <Input bind:value={passphrase_confirm} type="password" name="confirm" label="{loc('passphrase_confirm')}" required=true tabindex=3 />
+            <div class="my-2 p-4 bg-red-100 dark:bg-red-900/50">
+                <Switch bind:checked={i_understand} name="understand" class="!mb-0" label="{loc('passphrase_understand')}" tabindex="4" supporting="{loc('passphrase_importance')}" />
             </div>
+        </div>
+    {/if}
+    {#if app_config.user.enable_remember_me}
+        <div class="mb-6 p-4 bg-orange-100 dark:bg-orange-900/50">
+            <Switch bind:checked={remember_me} name="remember" class="!mb-0" label="{loc('stay_logged_in')}" tabindex=5 supporting="{loc('stay_logged_in_warning')}" />
         </div>
     {/if}
     <div class="flex items-center justify-center">
         {#if page_join_mode}
-            <Button label="{loc('create_account')}" submit=true tabindex=4 />
-            <Button on:click={open_login} label="{loc('login_existing')}" display="text" class="ml-2" tabindex=5 />
+            <Button label="{loc('create_account')}" submit=true tabindex=6 />
+            <Button on:click={open_login} label="{loc('login_existing')}" display="text" class="ml-2" tabindex=7 />
         {:else}
-            <Button label="{loc('login')}" submit=true tabindex=4 />
-            <Button on:click={open_join} label="{loc('create_account')}" display="text" class="ml-2" tabindex=5 />
+            <Button label="{loc('login')}" submit=true tabindex=6 />
+            <Button on:click={open_join} label="{loc('create_account')}" display="text" class="ml-2" tabindex=7 />
         {/if}
     </div>
 
     <div class="flex items-center justify-center my-6 pt-6 border-t border-slate-200 dark:border-slate-600">
-        <Button on:click={toggle_settings} label="{loc('advanced_settings')}" display="text" tabindex=6 />
+        <Button on:click={toggle_settings} label="{loc('advanced_settings')}" display="text" tabindex=8 />
     </div>
 
     {#if page_settings_open}
         <div transition:slide="{{duration: 150}}">
-            <Input bind:value={turtl_server} type="text" name="server" label="{loc('turtl_server')}" tabindex=7 />
-            <Input bind:value={proxy_server} type="text" name="proxy" label="{loc('proxy_server')}" tabindex=8 />
-            <Switch bind:checked={skip_ssl_verification} name="skip_ssl" label="{loc('skip_ssl_verify')}" tabindex=9 />
+            <Input bind:value={turtl_server} type="text" name="server" label="{loc('turtl_server')}" tabindex=9 />
+            <Input bind:value={proxy_server} type="text" name="proxy" label="{loc('proxy_server')}" tabindex=10 />
+            <Switch bind:checked={skip_ssl_verification} name="skip_ssl" label="{loc('skip_ssl_verify')}" tabindex=11 />
         </div>
     {/if}
 </form>
