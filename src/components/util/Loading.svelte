@@ -6,12 +6,9 @@
 
     export let logs = [];
 
-    const dot = `<img class="w-8 h-8 md:w-12 md:h-12 mx-1" src="${logo}" alt="${loc('logo')}">`;
-    let dots = dot;
     let i = 0;
     let dot_interval = setInterval(() => {
         i = (i + 1) % 3;
-        dots = Array.from(new Array(i + 1), () => dot).join('');
     }, 750);
     onDestroy(() => {
         clearInterval(dot_interval);
@@ -20,7 +17,11 @@
 
 <Fullscreen>
     <div class="w-full text-center">
-        <span class="flex items-center justify-center mb-6 text-6xl text-slate-400 dark:text-slate-500">{@html dots}</span>
+        <span class="flex items-center justify-center mb-6 text-6xl text-slate-400 dark:text-slate-500">
+            {#each Array(i + 1) as _}
+                <img class="w-8 h-8 md:w-12 md:h-12 mx-1" src="{logo}" alt="{loc('logo')}">
+            {/each}
+        </span>
         {#if logs && logs.length > 0}
             <div class="h-0">
                 {#each logs as log}

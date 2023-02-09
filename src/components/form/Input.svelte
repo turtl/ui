@@ -40,8 +40,6 @@
         'border-b-slate-300 dark:border-b-slate-600 focus:border-b-primary dark:focus:border-b-primary-700';
     const padding_left = icon ? 'pl-11' : 'pl-4';
     const padding_right = icon_trailing ? 'pr-11' : 'pr-4';
-    const pointer_events_class = is_textarea ? 'pointer-events-auto' : '';
-    const innerval = is_textarea ? value : null;
 
     function set_value(inp, val) {
         if(!val) return;

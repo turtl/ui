@@ -57,5 +57,5 @@ export default function Event() {
         emit,
         all: special_all_event,
     };
-};
+}
 

@@ -3,9 +3,8 @@
     import Button from '../components/form/Button.svelte';
     import Input from '../components/form/Input.svelte';
     import Switch from '../components/form/Switch.svelte';
-    import log from '../util/log';
     import logo from '../assets/images/logo.svg';
-    import { push_page, set_page, set_meta } from '../models/pages';
+    import { push_page, set_meta } from '../models/pages';
     import { loc } from '../util/i18n';
     import { slide } from "svelte/transition";
     import user from '../models/turtl/user';
@@ -67,36 +66,36 @@
         page_settings_open = !page_settings_open;
     }
 
-    function update_passphrase_strength_meter(e) {
+    function update_passphrase_strength_meter(_e) {
         const pass = passphrase || '';
-		// NOTE: we actually want i18next('stringval') here instead of
-		// i18next(status) because by using hardcoded strings, we can analyze
-		// the code and find a list of active i18n strings, which could be used
-		// to generate an automated list of translations that are needed. this
-		// is especially important for when the interface language  changes.
+        // NOTE: we actually want i18next('stringval') here instead of
+        // i18next(status) because by using hardcoded strings, we can analyze
+        // the code and find a list of active i18n strings, which could be used
+        // to generate an automated list of translations that are needed. this
+        // is especially important for when the interface language  changes.
         let status = null;
         let text = null;
-		if(pass.length >= 32) {
-			status = 'excellent';
-			text = loc('excellent');
-		} else if(pass.length >= 24) {
-			status = 'great';
-			text = loc('great');
-		} else if(pass.length >= 16) {
-			status = 'good';
-			text = loc('good');
-		} else if(pass.length >= 10) {
-			status = 'ok';
-			text = loc('ok');
-		} else if(pass.length > 4) {
-			status = 'weak';
-			text = loc('weak');
-		} else if(pass.length > 0) {
-			status = 'too short';
-			text = loc('too_short');
-		}
+        if(pass.length >= 32) {
+            status = 'excellent';
+            text = loc('excellent');
+        } else if(pass.length >= 24) {
+            status = 'great';
+            text = loc('great');
+        } else if(pass.length >= 16) {
+            status = 'good';
+            text = loc('good');
+        } else if(pass.length >= 10) {
+            status = 'ok';
+            text = loc('ok');
+        } else if(pass.length > 4) {
+            status = 'weak';
+            text = loc('weak');
+        } else if(pass.length > 0) {
+            status = 'too short';
+            text = loc('too_short');
+        }
 
-		var width = Math.min(pass.length / 32, 1) * 100;
+        var width = Math.min(pass.length / 32, 1) * 100;
 
         const class_map = {
             'excellent': ' bg-primary',
@@ -107,8 +106,8 @@
             'weak': 'bg-red-400',
         };
 
-		strength_text = text;
-		strength_width = width;
+        strength_text = text;
+        strength_width = width;
         strength_class = class_map[status];
     }
 </script>

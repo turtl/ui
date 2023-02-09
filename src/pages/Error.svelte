@@ -1,7 +1,6 @@
 <script>
 	export let text;
     export let title;
-    import log from '../util/log';
     import { set_meta } from '../models/pages';
     import { loc } from '../util/i18n';
 
@@ -16,6 +15,6 @@
 
 <content>
     <p class="text-error">
-        {@html text}
+        {text}
     </p>
 </content>

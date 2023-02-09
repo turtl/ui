@@ -1,7 +1,6 @@
 <script>
     import Menu from './util/Menu.svelte';
     import { pages, pop_page } from '../models/pages';
-    import logo from '../assets/images/logo.svg';
     import user from '../models/turtl/user';
 
     function back(e) {

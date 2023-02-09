@@ -2,8 +2,6 @@
     import Loading from '../components/util/Loading.svelte';
     import { set_meta } from '../models/pages';
     import { load_profile } from '../models/turtl/profile';
-    import spaces from '../models/turtl/spaces';
-    import { procerr } from '../util/error';
     import { loc } from '../util/i18n';
     import * as core from '../models/turtl/core';
 

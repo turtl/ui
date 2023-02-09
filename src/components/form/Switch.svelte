@@ -1,6 +1,5 @@
 <script>
     import { createEventDispatcher } from 'svelte';
-    import { inc } from '../../models/counter';
     export let name;
     export let checked = false;
     export let disabled = false;

@@ -24,7 +24,7 @@ const CoreAdapter = ((events) => {
                 id: '01626b759c146c6f73a1d9cf35821d7a39e7b2b2bf7521b3acd96d33eed8ab7951ff6d433d9525e8',
                 space_id: '01626b759c146c6f634b027b1b69e1242d40d53e312b3b4ac7710f55be81f289b549446ef6778bee',
                 user_id: '01626b759c146c6f6b696da1b7e38fd92ff72c531689872a9da4e1b4cb7697b0636b15616a0f0017',
-                username: 'andrew@turtlapp.com',
+                username: 'login@turtl.app',
                 role: 'owner',
                 permissions: ['edit-space','delete-space','set-space-owner','edit-space-member','delete-space-member','add-space-invite','edit-space-invite','delete-space-invite','add-board','edit-board','delete-board','add-note','edit-note','delete-note'],
                 updated: '2018-03-28T07:16:40.120Z',
@@ -50,7 +50,7 @@ const CoreAdapter = ((events) => {
                 id: '01665e7122136f3cb9f271cb9a3596ab75f9ca3d3d90fd71882c89a06a244ec25d4efada9ac8f532',
                 space_id: '01665e7122136f3cb9f271cb9a3596ab75f9ca3d3d90fd71882c89a06a244ec25d4efada9ac8f529',
                 user_id: '01626b759c146c6f6b696da1b7e38fd92ff72c531689872a9da4e1b4cb7697b0636b15616a0f0017',
-                username: 'andrew@turtlapp.com',
+                username: 'login@turtl.app',
                 role: 'admin',
                 permissions: ['edit-space','edit-space-member','delete-space-member','add-space-invite','edit-space-invite','delete-space-invite','add-board','edit-board','delete-board','add-note','edit-note','delete-note'],
                 created: '2018-10-10T16:10:02.024Z',
@@ -89,10 +89,11 @@ const CoreAdapter = ((events) => {
         let error = null;
         log.debug('CoreAdapter::mock::send() -- req: ', parsed);
         switch(cmd) {
-            case 'app:get_config':
+            case 'app:get_config': {
                 response = {};
                 break;
-            case 'user:login':
+            }
+            case 'user:login': {
                 const [username, passphrase] = args;
                 if(username === 'login@turtl.app' && passphrase === 'password') {
                     response = {
@@ -109,18 +110,22 @@ const CoreAdapter = ((events) => {
                     error = {type: 'login_failed', message: `Login failed`};
                 }
                 break;
-            case 'profile:load':
+            }
+            case 'profile:load': {
                 await delay(1000);
                 event('profile:loaded');
                 await delay(2000);
                 event('profile:indexed');
                 response = state;
                 break;
-            case 'sync:start':
+            }
+            case 'sync:start': {
                 break;
-            default:
+            }
+            default: {
                 error = {type: 'missing_command', message: `Missing command ${cmd}`};
                 break;
+            }
         }
         setTimeout(() => {
             const res_msg = {

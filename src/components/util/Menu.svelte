@@ -19,7 +19,7 @@
         open = !open;
     }
 
-    function close(e) {
+    function close(_e) {
         open = false;
     }
 
@@ -62,7 +62,7 @@
     {#if open}
         <menu transition:slide="{{duration: 150}}" class="absolute top-0 right-0 w-48 shadow-lg {menu_class}">
             {#if items.length > 0}
-                {#each items as item, i}
+                {#each items as item, _i}
                     <a href="#item-{item.id}" on:click={(e) => click(e, item)} class="block p-2 text-black dark:text-white bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600">
                         {item.title}
                     </a>

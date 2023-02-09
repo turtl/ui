@@ -3,14 +3,12 @@
     import Main from './pages/Main.svelte';
     import Login from './pages/Login.svelte';
     import Err from './pages/Error.svelte';
-    import Settings from './pages/Settings.svelte';
-    import { pages, pop_page, push_page, set_page } from './models/pages';
+    import { pages, pop_page, set_page } from './models/pages';
     import * as core from './models/turtl/core';
     import user from './models/turtl/user';
     import config from './models/turtl/config';
     import darkmode from './models/darkmode';
     import { procerr } from './util/error';
-    import Emitter from './util/event';
     import log from './util/log';
     import { init as i18n_init, loc } from './util/i18n';
     import * as shortcuts from './util/shortcuts';

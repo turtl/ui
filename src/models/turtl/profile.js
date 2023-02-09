@@ -1,6 +1,4 @@
 import { invoke } from './core';
-import { config } from './config';
-import user from './user';
 import spaces from './spaces';
 import boards from './boards';
 import invites from './invites';

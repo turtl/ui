@@ -34,7 +34,7 @@ export async function init(core_adapter, options) {
             return;
         }
         if(!msg) {
-            events.emit('error', {core: true, err: 'empty_message', msg})
+            events.emit('error', {core: true, err: 'empty_message', msg});
             return;
         }
         const id = msg.id;
