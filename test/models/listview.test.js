@@ -150,6 +150,35 @@ describe('models/listview', () => {
         ]);
     });
 
+    it('updates', () => {
+        const list = type.create([
+            {id: 888},
+            {id: 444},
+            {id: 9090},
+        ]);
+        expect(get(list).map(get)).toEqual([
+            {id: 888},
+            {id: 444},
+            {id: 9090},
+        ]);
+        list.update((vals) => {
+            return [
+                ...vals.map((entry) => {
+                    return {
+                        ...entry,
+                        id: entry.id < 1000 ? entry.id + 1000 : entry.id,
+                        u: entry.id < 1000,
+                    };
+                }),
+            ];
+        });
+        expect(get(list).map(get)).toEqual([
+            {id: 1888, u: true},
+            {id: 1444, u: true},
+            {id: 9090, u: false},
+        ]);
+    });
+
     it('finds indexed children by id', () => {
         const list1 = type.create([]);
         const list2 = type.create([]);

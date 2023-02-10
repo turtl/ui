@@ -60,9 +60,33 @@ export function type(options) {
             if(!options) options = {};
             const skip_update = options.skip_update || false;
 
+            // the main place we store our child models
             const collection = writable([]);
+
+            // subscription function for our child store
             const subscribe = collection.subscribe;
-            const add = (children) => {
+
+            // unindex a model. reference counts models that exist in other types
+            // and if we hit a count of zero, clear out that model and unsubscribe
+            // from it
+            const unindex = (id) => {
+                if(!id) return false;
+                const entry = child_index[id];
+                entry.ref -= 1;
+                if(entry.ref <= 0) {
+                    // dereference the child, allowing it to be GCed LOL
+                    delete child_index[id];
+                    entry.unsubscribe();
+                }
+                return entry.ref;
+            };
+
+            // this function processes child models (turns data into models and
+            // indexes them), but does not actually add the resulting models to
+            // the underlying store (`collection`).
+            const add_impl = (children, options) => {
+                if(!options) options = {};
+                const return_existing = options.return_existing || false;
                 const exists_map = get(collection)
                     .reduce((acc, x) => { acc[x._id] = x; return acc; }, {});
                 if(!Array.isArray(children)) {
@@ -77,7 +101,7 @@ export function type(options) {
                             if(!skip_update) {
                                 exists.set(child);
                             }
-                            return false;
+                            return return_existing ? exists : false;
                         }
                         const indexed = child_index[id];
                         const store = indexed ?
@@ -120,40 +144,48 @@ export function type(options) {
                         return store;
                     })
                     .filter((s) => !!s);
-                collection.update((c) => [...c, ...stores]);
+                return stores;
             };
+
+            // process (store-ize and index) child models and add them to the underlying
+            // storage.
+            const add = (children) => {
+                collection.update((c) => [...c, ...add_impl(children)]);
+            };
+
+            // check if a model is a store or raw data
             const is_store = (id_or_store) => !!id_or_store._id;
-            const get_id = (values, id_or_store) => {
+
+            // get a model's id
+            const get_id = (id_or_store) => {
                 if(is_store(id_or_store)) {
                     return id_or_store._id;
                 } else {
                     return id_or_store;
                 }
             };
-            const unindex = (values, id) => {
-                if(!id) return false;
-                const entry = child_index[id];
-                entry.ref -= 1;
-                if(entry.ref <= 0) {
-                    // dereference the child, allowing it to be GCed LOL
-                    delete child_index[id];
-                    entry.unsubscribe();
-                }
-                return entry.ref;
-            };
+
+            // remove a model (by ref or by id) from the underlying store
             const remove = (id_or_store) => {
                 const values = get(collection);
-                const id = get_id(values, id_or_store);
+                const id = get_id(id_or_store);
                 if(!values.find((s) => s._id === id)) {
                     return false;
                 }
-                const ref = unindex(values, id);
+                const ref = unindex(id);
                 if(!id) return false;
                 collection.update((c) => c.filter((s) => s._id !== id));
                 return {id, ref};
             };
+
+            // find a model (as a store, not as data) via a finder fn
             const find = (findfn) => get(collection).find((m) => findfn(get(m)));
+
+            // get a model (As a store, not as data) by id
             const get_by_id = (id) => get(collection).find((s) => s._id === id);
+
+            // clear all models from the underlying store EXCEPT those the excluded
+            // IDs array given as the first arg
             const clear = (exclude_ids) => {
                 if(!Array.isArray(exclude_ids)) {
                     exclude_ids = [];
@@ -169,17 +201,34 @@ export function type(options) {
                         return;
                     }
                     // unindex, but don't remove the items
-                    unindex(values, id);
+                    unindex(id);
                 });
                 // now remove everything
                 collection.update((vals) => vals.filter((s) => exclude_map[s._id]));
             };
+
+            // replace all children in the underlying store with the given set,
+            // (un)indexing removed, preserved, and created models properly.
             const set = (children) => {
                 const ids = children.map((child) => child[id_field]);
                 clear(ids);
-                add(children);
+                // if we call add() here, new models will be added AFTER existing
+                // models (order of `children` is NOT preserved). instead, we ask
+                // `add_impl()` to model-ize/index everything for us, then we
+                // add it all ourselves.
+                const stores = add_impl(children, {return_existing: true});
+                collection.update((_) => [...stores]);
             };
+
+            // allows updating all the models in the collection
+            const update = (updatefn) => {
+                set(updatefn(get(collection).map((s) => get(s))));
+            };
+
+            // add our initial children
             add(children);
+
+            // return our api
             return {
                 subscribe,
                 add,
@@ -188,6 +237,7 @@ export function type(options) {
                 get: get_by_id,
                 clear,
                 set,
+                update,
             };
         },
 
