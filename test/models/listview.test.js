@@ -67,9 +67,22 @@ describe('models/listview', () => {
             {id: 'zing123', name: 'boof'},
             {id: 555, name: 'herp'},
         ]);
-        const model1 = list.find('zing123');
-        const model2 = list.find(555);
-        const model3 = list.find(667);
+        const model1 = list.find((m) => m.name === 'boof');
+        const model2 = list.find((m) => m.id === 555);
+        const model3 = list.find((m) => m.id === 667);
+        expect(get(model1)).toEqual({id: 'zing123', name: 'boof'});
+        expect(get(model2)).toEqual({id: 555, name: 'herp'});
+        expect(model3).toBeUndefined();
+    });
+
+    it('gets models by id', () => {
+        const list = type.create([
+            {id: 'zing123', name: 'boof'},
+            {id: 555, name: 'herp'},
+        ]);
+        const model1 = list.get('zing123');
+        const model2 = list.get(555);
+        const model3 = list.get(667);
         expect(get(model1)).toEqual({id: 'zing123', name: 'boof'});
         expect(get(model2)).toEqual({id: 555, name: 'herp'});
         expect(model3).toBeUndefined();
@@ -80,7 +93,7 @@ describe('models/listview', () => {
             {id: 1},
             {id: 2},
         ]);
-        const model2 = list.find(2);
+        const model2 = list.get(2);
         expect(get(model2)).toEqual({id: 2});
         expect(get(list).map(get)).toEqual([{id: 1}, {id: 2}]);
         const rem1 = list.remove(1);
@@ -98,7 +111,7 @@ describe('models/listview', () => {
             {id: 3, name: 'jackie'}
         ]);
         // get a ref to the model we're preserving and update it.
-        const store = list.find(2);
+        const store = list.get(2);
         store.update((v) => ({...v, name: 'jerry'}));
 
         // clear all but our preserved model
@@ -191,7 +204,7 @@ describe('models/listview', () => {
     it('preserves existing models when calling add()', () => {
         const list = type.create([]);
         list.add({id: '123', name: 'pills'});
-        const model = list.find('123');
+        const model = list.get('123');
         expect(get(model).name).toBe('pills');
         list.add([
             {id: '1313', name: 'jerry'},
@@ -209,7 +222,7 @@ describe('models/listview', () => {
             {id: 1, name: 'jerry'},
             {id: 2, name: 'larry'},
         ]);
-        const existing = list.find(2);
+        const existing = list.get(2);
         expect(get(existing).name).toBe('barry');
     });
 
@@ -218,8 +231,8 @@ describe('models/listview', () => {
             {id: 1, name: 'sandra'},
             {id: 2, name: 'sammy'},
         ]);
-        const model1 = list1.find(1);
-        const model2 = list1.find(2);
+        const model1 = list1.get(1);
+        const model2 = list1.get(2);
         expect(get(model1).name).toBe('sandra');
         expect(get(model2).name).toBe('sammy');
 
@@ -227,8 +240,8 @@ describe('models/listview', () => {
             {id: 1, name: 'slappy'},
             {id: 3, name: 'sloopy'},    // hang on
         ]);
-        const model2_1 = list2.find(1);
-        const model3 = list2.find(3);
+        const model2_1 = list2.get(1);
+        const model3 = list2.get(3);
         expect(model1 === model2_1).toBe(true);
         expect(get(model1).name).toBe('slappy');
         expect(get(model2).name).toBe('sammy');
@@ -253,8 +266,8 @@ describe('models/listview', () => {
         const list2 = type.create([
             {id: 1, name: 'slappy'},
         ]);
-        const model1 = list1.find(1);
-        const model2 = list2.find(1);
+        const model1 = list1.get(1);
+        const model2 = list2.get(1);
         expect(model1 === model2).toBe(true);
 
         const rem1 = list1.remove(model1);
@@ -271,7 +284,7 @@ describe('models/listview', () => {
         const list = type.create([
             {id: 6969},
         ]);
-        const model = list.find(6969);
+        const model = list.get(6969);
         expect(get(model)).toEqual({id: 6969});
 
         const observed = [];
@@ -288,8 +301,8 @@ describe('models/listview', () => {
             {id: 123},
             {id: 444},
         ]);
-        const model1 = list.find(123);
-        const model2 = list.find(444);
+        const model1 = list.get(123);
+        const model2 = list.get(444);
         expect(type.find_child(123).store === model1).toBe(true);
         expect(type.find_child(444).store === model2).toBe(true);
 
@@ -298,9 +311,9 @@ describe('models/listview', () => {
         expect(type.find_child(42).store === model1).toBe(true);
         expect(type.find_child(444).store === model2).toBe(true);
 
-        expect(list.find(123)).toBeUndefined();
-        expect(list.find(42)).toBeDefined();
-        expect(list.find(444)).toBeDefined();
+        expect(list.get(123)).toBeUndefined();
+        expect(list.get(42)).toBeDefined();
+        expect(list.get(444)).toBeDefined();
     });
 });
 

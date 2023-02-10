@@ -152,7 +152,8 @@ export function type(options) {
                 collection.update((c) => c.filter((s) => s._id !== id));
                 return {id, ref};
             };
-            const find = (id) => get(collection).find((s) => s._id === id);
+            const find = (findfn) => get(collection).find((m) => findfn(get(m)));
+            const get_by_id = (id) => get(collection).find((s) => s._id === id);
             const clear = (exclude_ids) => {
                 if(!Array.isArray(exclude_ids)) {
                     exclude_ids = [];
@@ -184,6 +185,7 @@ export function type(options) {
                 add,
                 remove,
                 find,
+                get: get_by_id,
                 clear,
                 set,
             };
