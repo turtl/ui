@@ -5,7 +5,12 @@ const config = {
         enable_remember_me: true,
     },
     log: {
-        default_level: 'warn',
+        core: {
+            level: 'info',
+        },
+        ui: {
+            level: 'info',
+        },
     },
 };
 export default config;

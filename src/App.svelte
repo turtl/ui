@@ -1,5 +1,6 @@
 <script>
     import Header from './components/Header.svelte';
+    import Page from './components/util/Page.svelte';
     import Main from './components/pages/Main.svelte';
     import Login from './components/pages/Login.svelte';
     import Err from './components/pages/Error.svelte';
@@ -10,7 +11,7 @@
     import config from './models/turtl/config';
     import darkmode from './models/darkmode';
     import { procerr } from './util/error';
-    import log from './util/log';
+    import { ui as log } from './util/log';
     import delay from './util/delay';
     import { init as i18n_init, loc } from './util/i18n';
     import * as shortcuts from './util/shortcuts';
@@ -84,9 +85,11 @@
 <main class="h-screen">
     <Header />
     <div class="absolute top-12 bottom-0 left-0 right-0">
-        {#each $pages as {component, params, animate}}
+        {#each $pages as {id, component, params, animate}}
             <div transition:page_animate="{{animate, x: 500, opacity: 0.1}}" class="page absolute left-0 right-0 top-0 bottom-0 overflow-auto p-8 bg-white dark:bg-black z-40">
-                <svelte:component this={component} {...params}/>
+                <Page page_id={id}>
+                    <svelte:component this={component} {...params}/>
+                </Page>
             </div>
         {/each}
     </div>

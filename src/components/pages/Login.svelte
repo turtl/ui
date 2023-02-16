@@ -1,4 +1,5 @@
 <script>
+    import { getContext } from 'svelte';
     import app_config from '@/config';
     import Settings from './Settings.svelte';
     import Button from '../form/Button.svelte';
@@ -11,7 +12,9 @@
     import user from '@/models/turtl/user';
     import { procerr } from '@/util/error';
 
-    set_meta(loc('login'), {
+    const page_id = getContext('page_id');
+
+    set_meta(page_id, loc('login'), {
         header: {
             hide: true,
             menu: [

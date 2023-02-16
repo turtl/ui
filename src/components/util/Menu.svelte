@@ -1,7 +1,8 @@
 <script>
-    import log from '@/util/log';
+    import { ui as log } from '@/util/log';
     import { onMount, onDestroy } from 'svelte';
     import { inc } from '@/models/counter';
+    import Icon from '@/components/util/Icon.svelte';
     import * as shortcuts from '@/util/shortcuts';
     import { slide } from "svelte/transition";
 
@@ -57,7 +58,7 @@
 
 <div class="{id} relative">
     <a on:click={toggle} href="#menu">
-        <icon class="block rotate-90 text-xl">&#xE802;</icon>
+        <Icon class="block rotate-90 text-xl" name="tripledot" />
     </a>
     {#if open}
         <menu transition:slide="{{duration: 150}}" class="absolute top-0 right-0 w-48 shadow-lg {menu_class}">

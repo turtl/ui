@@ -35,6 +35,9 @@ import { get, writable } from 'svelte/store';
 export function type(options) {
     if(!options) options = {};
     const id_field = options.id_field || 'id';
+    const create_child = options.create_child instanceof Function ?
+        options.create_child :
+        (data) => writable(data);
 
     // a mapping that references children *across all list views* to their IDs
     const child_index = {};
@@ -113,7 +116,7 @@ export function type(options) {
                             })() :
                             // if creating a new store, index it
                             (() => {
-                                const child_store = writable(child);
+                                const child_store = create_child(child);
                                 // changes in child bubble up to collection, but
                                 // we don't want the initial subscription to fire
                                 // (like, LOL, who would, right??) so we silence
@@ -225,6 +228,9 @@ export function type(options) {
                 set(updatefn(get(collection).map((s) => get(s))));
             };
 
+            // count the models in this collection
+            const len = () => get(collection).length;
+
             // add our initial children
             add(children);
 
@@ -238,6 +244,7 @@ export function type(options) {
                 clear,
                 set,
                 update,
+                len,
             };
         },
 

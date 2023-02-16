@@ -1,4 +1,4 @@
-import log from '@/util/log';
+import { core as log } from '@/util/log';
 import Emitter from '@/util/event';
 
 export const events = Emitter();

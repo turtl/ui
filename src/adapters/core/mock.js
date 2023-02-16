@@ -1,7 +1,7 @@
 import * as core from '@/models/turtl/core';
 import delay from '@/util/delay';
 import Emitter from '@/util/event';
-import log from '@/util/log';
+import { core as log } from '@/util/log';
 
 const CoreAdapter = ((events) => {
     const state = {
@@ -67,6 +67,17 @@ const CoreAdapter = ((events) => {
             title: 'Bookmarks',
         }],
         invites: [],
+        notes: [{
+            id: '01665e7122136f3cb9f271cb9a3596ab75f9ca3d3d90fd7188222222222222225d4efada9ac8f529',
+            space_id: '01665e7122136f3cb9f271cb9a3596ab75f9ca3d3d90fd71882c89a06a244ec25d4efada9ac8f529',
+            user_id: '01626b759c146c6f6b696da1b7e38fd92ff72c531689872a9da4e1b4cb7697b0636b15616a0f0017',
+            has_file: false,
+            mod: new Date('2014-08-13T00:45:12.000Z').getTime(),
+            type: 'text',
+            title: 'Business things',
+            tags: ['business', 'company'],
+            text: `# Meeting notes\n\n- Talked to Drew about getting 50% of the company. Sounds good.\n- Wrote a 50 page document nobody read.\n- Saw a mourning dove out the office window. It laid egg on the windowsill, but a jay at them. The dove blamed me.\n`,
+        }],
     };
 
     function event(name, eventdata) {
@@ -93,6 +104,89 @@ const CoreAdapter = ((events) => {
                 response = {};
                 break;
             }
+            case 'profile:find-notes': {
+                const search = args[0];
+                const text = search.text;
+                const note_ids = search.notes;
+                const space_id = search.space_id;
+                const board_ids = search.boards;
+                const tags = search.tags;
+                const exclude_tags = search.exclude_tags;
+                const type = search.type;
+                const url = search.url;
+                const has_file = search.has_file;
+                const sort = search.sort;
+                const sort_direction = search.sort_direction;
+                const page = search.page || 1;
+                const per_page = search.per_page || 50;
+                let notes = state.notes;
+                if(text) {
+                    notes = notes.filter((note) => {
+                        note.title.substr(text) >= 0 ||
+                            note.text.substr(text) >= 0 ||
+                            note.tags.reduce((acc, t) => acc || t.substr(text) >= 0, false);
+                    });
+                }
+                if(note_ids) {
+                    notes = notes.filter((note) => note_ids.indexOf(note.id) >= 0);
+                }
+                if(space_id) {
+                    notes = notes.filter((note) => note.space_id === space_id);
+                }
+                if(board_ids) {
+                    notes = notes.filter((note) => board_ids.indexOf(note.board_id) >= 0);
+                }
+                if(tags) {
+                    notes = notes.filter((note) => {
+                        return tags.reduce((acc, t) => {
+                            return acc && note.tags.indexOf(t) >= 0;
+                        }, true);
+                    });
+                }
+                if(exclude_tags) {
+                    notes = notes.filter((note) => {
+                        return !exclude_tags.reduce((acc, x) => {
+                            return acc || note.tags.indexOf(x) >= 0;
+                        }, false);
+                    });
+                }
+                if(type) {
+                    notes = notes.filter((note) => note.type === type);
+                }
+                if(url) {
+                    notes = notes.filter((note) => note.url === url);
+                }
+                if(has_file) {
+                    notes = notes.filter((note) => note.has_file);
+                }
+                notes = notes.sort((a, b) => {
+                    const [x, y] = sort_direction.toLowerCase().trim() === 'desc' ?
+                        [b, a] :
+                        [a, b];
+                    if(typeof(a[sort]) === 'string') {
+                        return x[sort].localeCompare(y[sort]);
+                    } else {
+                        return x[sort] < y[sort];
+                    }
+                });
+                const offset = (Math.max(page, 0) - 1) * Math.max(per_page, 1);
+                const total = notes.length;
+                const tags_idx = notes.reduce((acc, x) => {
+                    x.tags.forEach((t) => {
+                        if(!acc[t]) acc[t] = 0;
+                        acc[t]++;
+                    });
+                    return acc;
+                }, {});
+                const note_tags = Object.keys(tags_idx).map((k) => [k, tags_idx[k]]);
+                notes = notes.slice(offset, offset + per_page);
+                response = {
+                    notes,
+                    tags: note_tags,
+                    total,
+                };
+                break;
+            }
             case 'profile:load': {
                 await delay(500);
                 event('profile:loaded');
@@ -115,7 +209,7 @@ const CoreAdapter = ((events) => {
                 break;
             }
             case 'user:login-from-saved': {
-                const [user_id, key] = args;
+                const [_user_id, key] = args;
                 const decoded = JSON.parse(key);
                 if(decoded.u === state.user.username && decoded.p === state.user.password) {
                     state.user.loggedin = true;

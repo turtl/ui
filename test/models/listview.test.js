@@ -1,6 +1,6 @@
 "use strict";
 
-import { get } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import * as listview from '../../src/models/listview';
 
 describe('models/listview', () => {
@@ -13,6 +13,25 @@ describe('models/listview', () => {
         const list = type.create([]);
         expect(type.create).toBeInstanceOf(Function);
         expect(get(list)).toEqual([]);
+    });
+
+    it('creates types with custom children', () => {
+        const custom = listview.type({
+            id_field: 'identifier',
+            create_child: (data) => {
+                const child = writable(data);
+                child.id = () => child._id;
+                child.name = () => get(child).name;
+                return child;
+            },
+        });
+        const list = custom.create();
+        list.add([
+            {identifier: 'ab427x.2', name: 'garf'},
+            {identifier: '772218.9', name: 'neil'},
+        ]);
+        expect(list.get('ab427x.2').name()).toEqual('garf');
+        expect(list.get('772218.9').id()).toEqual('772218.9');
     });
 
     it('subscribes', () => {
@@ -177,6 +196,20 @@ describe('models/listview', () => {
             {id: 1444, u: true},
             {id: 9090, u: false},
         ]);
+    });
+
+    it('counts models like better than a first grader', () => {
+        const list = type.create([
+            {id: 1},
+            {id: 2},
+            {id: 3},
+            {id: 4},
+        ]);
+        expect(list.len()).toEqual(4);
+        list.clear();
+        expect(list.len()).toEqual(0);
+        list.add({id: 'ZING'});
+        expect(list.len()).toEqual(1);
     });
 
     it('finds indexed children by id', () => {

@@ -1,10 +1,14 @@
 <script>
-	export let text;
-    export let title;
+    import { getContext } from 'svelte';
     import { set_meta } from '@/models/pages';
     import { loc } from '@/util/i18n';
 
-    set_meta(loc('error'), {
+	export let text;
+    export let title;
+
+    const page_id = getContext('page_id');
+
+    set_meta(page_id, loc('error'), {
         header: {
             title,
             menu: [

@@ -1,6 +1,5 @@
 import app_config from '@/config';
-import log from '@/util/log';
-import Emitter from '@/util/event';
+import { ui as log } from '@/util/log';
 import user from './turtl/user';
 
 let adapter = null;
@@ -9,7 +8,7 @@ function enabled() {
     return adapter && app_config.user.enable_remember_me;
 }
 
-export async function init(remember_adapter, options) {
+export async function init(remember_adapter) {
     adapter = remember_adapter;
 }
 

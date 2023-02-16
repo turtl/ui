@@ -1,5 +1,6 @@
 <script>
     import { createEventDispatcher } from 'svelte';
+    import Icon from '../util/Icon.svelte';
     export let label;
     let klass = '';
     export { klass as class };
@@ -32,7 +33,7 @@
         type={submit ? 'submit' : 'button'}
         tabindex={tabindex || null}>
     {#if icon}
-        <icon class="text-xl pr-2 {icon_class || ''}">{icon}</icon>
+        <Icon class="text-xl pr-2 {icon_class || ''}" name={icon} />
     {/if}
     <div class="relative">{label}</div>
 </button>

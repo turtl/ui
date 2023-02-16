@@ -1,4 +1,5 @@
 <script>
+    import { getContext } from 'svelte';
     import Loading from '../util/Loading.svelte';
     import Space from '../turtl/Space.svelte';
     import { set_meta } from '@/models/pages';
@@ -6,7 +7,9 @@
     import { loc } from '@/util/i18n';
     import * as core from '@/models/turtl/core';
 
-    set_meta(loc('loading_profile'));
+    const page_id = getContext('page_id');
+
+    set_meta(page_id, loc('loading_profile'));
 
     let loading = true;
     let logs = [];

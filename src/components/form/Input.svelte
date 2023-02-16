@@ -1,6 +1,8 @@
 <script>
     import { createEventDispatcher } from 'svelte';
     import { inc } from '@/models/counter';
+    import Icon from '../util/Icon.svelte';
+
     export let name;
     export let label;
     export let type = 'text';
@@ -81,7 +83,7 @@
     <div class="relative {container_padding_class} bg-slate-200/50 dark:bg-slate-600/50">
         {#if icon}
             <div class="absolute z-0 top-0 bottom-0 left-0 ml-4 flex items-center {icon_class || ''}">
-                <icon class="text-xl">{icon}</icon>
+                <Icon class="text-xl" name={icon} />
             </div>
         {/if}
         <!-- lovely duplication here. again, https://github.com/sveltejs/svelte/issues/7566 -->
@@ -104,7 +106,7 @@
         </label>
         {#if icon_trailing}
             <div on:click={icon_trailing_click} class="absolute z-10 top-0 bottom-0 right-0 mr-4 flex items-center {icon_trailing_class || ''}">
-                <icon class="text-xl">{icon_trailing}</icon>
+                <Icon class="text-xl" name={icon_trailing} />
             </div>
         {/if}
     </div>
