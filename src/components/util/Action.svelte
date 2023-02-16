@@ -41,7 +41,7 @@
     const shortcut_unbinds = [];
     shortcut_unbinds.push(shortcuts.register({
         'escape': () => { open = false; },
-    }), shortcut_context);
+    }, shortcut_context));
     if(bind_shortcut) {
         shortcut_unbinds.push(shortcuts.register({
             [bind_shortcut]: () => toggle_actions(null),
