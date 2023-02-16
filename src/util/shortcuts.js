@@ -37,6 +37,7 @@ export function set_enabled(yesno) {
 }
 
 export function register(register, context) {
+    const reg_copy = {};
     Object.keys(register).forEach((spec) => {
         const fn = register[spec];
         // if we passed a context in, we only want these bindings to run if the
@@ -44,15 +45,16 @@ export function register(register, context) {
         const wrapped_fn = typeof(context) === 'undefined' || context === null ?
             fn :
             (...args) => (current_context() === context) && fn(...args);
+        reg_copy[spec] = wrapped_fn;
         if(!mapping[spec]) {
             mapping[spec] = [];
         }
-        if(mapping[spec].indexOf(register[spec]) < 0) {
+        if(mapping[spec].indexOf(wrapped_fn) < 0) {
             mapping[spec].push(wrapped_fn);
         }
     });
     // return a function that un-does the register
-    return () => unregister(register);
+    return () => unregister(reg_copy);
 }
 
 export function unregister(register) {
