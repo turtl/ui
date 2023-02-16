@@ -10,5 +10,7 @@
     set_meta(page_id, loc('settings'));
 </script>
 
-<Switch name="darkmode" label="{loc('dark_mode_enable')}" on:change={darkmode.toggle} checked={$darkmode.enabled} supporting="{loc('dark_mode_note')}" />
+<div class="mx-auto max-w-screen-md">
+    <Switch name="darkmode" label="{loc('dark_mode_enable')}" on:change={darkmode.toggle} checked={$darkmode.enabled} supporting="{loc('dark_mode_note')}" />
+</div>
 
