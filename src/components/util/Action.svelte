@@ -1,10 +1,11 @@
 <script>
-    import Icon from './Icon.svelte';
     import { onDestroy } from 'svelte';
+    import Icon from './Icon.svelte';
     import { createEventDispatcher } from 'svelte';
     import { fly } from 'svelte/transition';
     import * as shortcuts from '@/util/shortcuts';
     import { shortcut_context as page_to_context } from '@/models/pages';
+    import { press } from 'svelte-gestures';
 
     export let actions = [];
     export let page_id = null;
@@ -32,6 +33,10 @@
         if(e) e.preventDefault();
         open = false;
         dispatch('action', {action});
+    }
+
+    function default_action(e) {
+        process_action(e, actions ? actions[0].id : null);
     }
 
     if(page_id && !shortcut_context) {
@@ -64,7 +69,12 @@
 </script>
 
 <div class="absolute bottom-2.5 right-2.5 p-2.5 flex flex-col-reverse">
-    <a class="flex w-16 h-16 justify-center items-center {drop_shadow_class} rounded-full bg-primary transition-[drop-shadow,filter]" on:click={toggle_actions} href="#action" title="{title}">
+    <a on:click={toggle_actions}
+           use:press={{ timeframe: 750, triggerBeforeFinished: true }}
+           on:press={default_action}
+           class="flex w-16 h-16 justify-center items-center {drop_shadow_class} rounded-full bg-primary transition-[drop-shadow,filter]"
+           href="#action"
+           title="{title}">
         <Icon
             class="inline-block text-white text-2xl w-8 h-8 text-center align-top transition-transform {extra_classes} {open ? open_class : ''}"
             name={icon} />
