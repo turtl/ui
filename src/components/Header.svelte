@@ -50,7 +50,7 @@
         </a>
     {/if}
     {#if opts.menu}
-        <Menu items={opts.menu} />
+        <Menu items={opts.menu} page_id={curpage.id} />
     {/if}
 </header>
 
