@@ -5,7 +5,7 @@
     import { Note } from '@/models/turtl/notes';
     import Input from '@/components/form/Input.svelte';
     import * as shortcuts from '@/util/shortcuts';
-    import { loc } from '@/util/i18n';
+    import { t } from '@/util/i18n';
 
     export let type = null;
     export let note = null;
@@ -21,16 +21,16 @@
 
     var title_part = '';
     switch(type) {
-        case 'text': title_part = loc('text_note'); break;
-        case 'link': title_part = loc('bookmark'); break;
-        case 'image': title_part = loc('image'); break;
-        case 'file': title_part = loc('file'); break;
-        case 'password': title_part = loc('password'); break;			
+        case 'text': title_part = t('notes.text_note'); break;
+        case 'link': title_part = t('notes.bookmark'); break;
+        case 'image': title_part = t('notes.image'); break;
+        case 'file': title_part = t('notes.file'); break;
+        case 'password': title_part = t('notes.password'); break;
         default: title_part = ''; break;
     }
     // HACK: i18n: probably shouldn't lower case here, oh well. it reduces the
     // number of keys we have to translate.
-    const title = loc('edit_type', {type: title_part.toLowerCase()});
+    const title = t('notes.edit_type', {type: title_part.toLowerCase()});
     set_meta(page_id, title);
 
     function submit(e) {
@@ -49,6 +49,6 @@
 </script>
 
 <form on:submit={submit} class="mx-auto max-w-screen-md text-auto">
-    <Input name="title" label="{loc('title')}" value={$note.title} tabindex="2" />
+    <Input name="title" label="{t('common.title')}" value={$note.title} tabindex="2" />
 </form>
 

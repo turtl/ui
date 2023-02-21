@@ -13,7 +13,7 @@
     import { procerr } from './util/error';
     import { ui as log } from './util/log';
     import delay from './util/delay';
-    import { init as i18n_init, loc } from './util/i18n';
+    import { init as i18n_init, t } from './util/i18n';
     import * as shortcuts from './util/shortcuts';
     import { onMount } from 'svelte';
     import { fly } from 'svelte/transition';
@@ -61,8 +61,8 @@
             user.subscribe(test_login);
         } catch(err) {
             set_page(Err, {params: {
-                title: loc('error_loading'),
-                text: loc('error_config_text', {err: procerr(err)}),
+                title: t('common.error_loading'),
+                text: t('common.error_config_text', {err: procerr(err)}),
             }});
         }
     }

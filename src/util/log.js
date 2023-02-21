@@ -39,7 +39,7 @@ function logger(name, level) {
 export const core = logger('core', config.log.core.level);
 export const ui = logger('ui', config.log.ui.level);
 
-if(window && !window.log) {
+if(typeof(window) !== 'undefined' && !window.log) {
     window.log = {
         core,
         ui,
