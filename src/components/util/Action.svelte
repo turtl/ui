@@ -81,7 +81,7 @@
     </a>
 
     {#if actions && open}
-        {#each actions as action, i (action.id)}
+        {#each actions as action, _i (action.id)}
             <a transition:fly="{{duration: 150, y: 50}}" class="relative flex w-12 h-12 ml-2 mb-2.5 justify-center items-center drop-shadow rounded-full bg-primary" href="#{action.id}" on:click={(e) => process_action(e, action.id)} title="{action.title}">
                 <h4 class="absolute right-12 mr-2 px-2 py-px whitespace-nowrap bg-black dark:bg-white text-white dark:text-black rounded">{action.title}</h4>
                 <Icon

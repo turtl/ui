@@ -1,4 +1,4 @@
-import {render, fireEvent, screen} from '@testing-library/svelte'
+import {render, fireEvent, screen} from '@testing-library/svelte';
 import Input from '@/components/form/Input.svelte';
 
 describe('components/pages/Login', () => {
@@ -14,5 +14,4 @@ describe('components/pages/Login', () => {
         expect(screen.getByRole('textbox', {name: /get a job/i})).toBeInTheDocument();
     });
 });
-
 

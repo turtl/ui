@@ -40,7 +40,7 @@ describe('models/listview', () => {
         list.subscribe((v) => observed.push(v.map(get)));
         list.set([{id: 2}, {id: 3}, {id: 4}]);
         list.clear();
-        expect(observed.length).toBe(4)
+        expect(observed.length).toBe(4);
         expect(observed[0]).toEqual([{id: 1}]);
         expect(observed[1]).toEqual([]);
         expect(observed[2]).toEqual([{id: 2}, {id: 3}, {id: 4}]);
@@ -309,7 +309,7 @@ describe('models/listview', () => {
         expect(get(model2).name).toBe('sammy');
         expect(get(model3).name).toBe('sloopy');
 
-        const list3 = type.create([
+        const _list3 = type.create([
             {id: 1, name: 'slappy'},
             {id: 3, name: 'swampy'},
         ], {skip_update: true});

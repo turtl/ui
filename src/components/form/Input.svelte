@@ -65,6 +65,13 @@
         dispatch('click-trailing-icon', e);
     }
 
+    function icon_trailing_press(e) {
+        const key = e && e.key && typeof(e.key) === 'string' && e.key.toLowerCase();
+        if(key === 'enter' || key === 'return') {
+            dispatch('click-trailing-icon', e);
+        }
+    }
+
     // some song and dance because of this: https://github.com/sveltejs/svelte/issues/7566
     const attrs = {
         class: `relative z-10 block ${height_class} w-full ${padding_top_class} ${color_class} border-b-2 ${border_class} text-base ${padding_left} ${padding_right} bg-transparent focus:outline-none transition-colors ${klass}`,
@@ -105,7 +112,7 @@
             <div class="text-lg {padding_left} pr-4 -mt-1 text-slate-600 dark:text-slate-400 {label_color_class} transition-all">{label}</div>
         </label>
         {#if icon_trailing}
-            <div on:click={icon_trailing_click} class="absolute z-10 top-0 bottom-0 right-0 mr-4 flex items-center {icon_trailing_class || ''}">
+            <div on:click={icon_trailing_click} on:keypress={icon_trailing_press} class="absolute z-10 top-0 bottom-0 right-0 mr-4 flex items-center {icon_trailing_class || ''}">
                 <Icon class="text-xl" name={icon_trailing} />
             </div>
         {/if}

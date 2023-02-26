@@ -8,7 +8,6 @@
     import { push_page, set_meta } from '@/models/pages';
     import spaces from '@/models/turtl/spaces';
     import { t } from '@/util/i18n';
-    import * as shortcuts from '@/util/shortcuts';
 
     const page_id = getContext('page_id');
     const actions = [

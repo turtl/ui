@@ -1,5 +1,5 @@
 import app_config from '@/config';
-import {render, fireEvent, screen} from '@testing-library/svelte'
+import {render, fireEvent, screen} from '@testing-library/svelte';
 import Login from '@/components/pages/Login.svelte';
 
 describe('components/pages/Login', () => {
