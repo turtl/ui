@@ -75,7 +75,7 @@
         disabled: disabled || null,
         autocomplete: autocomplete ? 'on' : 'off',
         required: required || null,
-        'aria-labelledby': '{label_id}',
+        'aria-labelledby': label_id,
     };
 </script>
 

@@ -4,7 +4,7 @@ SRC := src
 BUILD := dist
 PATH := $(PATH):$(shell pwd)/node_modules/.bin
 
-LINT = npx eslint $(LINTARGS) -c ./.eslintrc.cjs "src/**/*.js" "src/**/*.svelte"
+LINT = npx eslint $(LINTARGS) -c ./.eslintrc.cjs "src/**/*.js" "src/**/*.svelte" "test/**/*.test.js"
 MKDIR = mkdir -p ${dir $@}
 
 allsrc := $(shell find $(SRC)/ -type f)
@@ -21,7 +21,7 @@ lint:
 	$(LINT)
 
 test:
-	npx jest src/ test/ -t '$(TEST)'
+	npx vitest run src/ test/ -t '$(TEST)'
 
 watch:
 	while true; do inotifywait -qr -e close_write src/ index.html *.config.js *.config.cjs; make; done
