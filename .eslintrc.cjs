@@ -30,4 +30,14 @@ module.exports = {
         'quotes': ['off'],
         'semi': ['error', 'always'],
     },
+    overrides: [
+        {
+            files: 'test/**/*.test.js',
+            globals: {
+                'describe': 'readonly',
+                'expect': 'readonly',
+                'it': 'readonly',
+            },
+        },
+    ],
 };
